@@ -3,13 +3,16 @@ source "https://rubygems.org"
 ruby "2.1.1"
 
 gem "rails", "4.1.0"
-gem "pg"
-gem "bcrypt", "~> 3.1.7"
 
-gem "sass-rails", "~> 4.0.3"
-gem "uglifier", ">= 1.3.0"
-gem "coffee-rails", "~> 4.0.0"
+gem "aws-sdk"
+gem "bcrypt", "~> 3.1.7"
+gem "micromachine"
+gem "pg"
+
+gem "coffee-rails"
+gem "sass-rails"
 gem "therubyracer",  platforms: :ruby
+gem "uglifier"
 
 gem "puma"
 
@@ -18,10 +21,10 @@ group :development do
 end
 
 group :development, :test do
+  gem "database_cleaner"
+  gem "factories"
   gem "pry"
   gem "rspec-rails"
-  gem "factories"
-  gem "database_cleaner"
 end
 
 group :test do

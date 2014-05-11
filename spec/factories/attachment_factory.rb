@@ -31,7 +31,7 @@ module Factories
     end
 
     def build_an_upload
-      Factories.build :upload
+      Factories.build :upload, state: "finished"
     end
   end
 end
