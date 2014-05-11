@@ -4,7 +4,7 @@ describe User do
   describe "memberships" do
     let(:user) { create :user }
     let(:projects) do
-      3.times.map { create :project, user_ids: [user] }
+      3.times.map { create :project, member_ids: [user] }
     end
     let(:other_projects) do
       3.times.map { create :project }
