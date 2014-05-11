@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "2.1.1"
+ruby "2.1.2"
 
 gem "rails", "4.1.0"
 
@@ -22,6 +22,7 @@ end
 
 group :development, :test do
   gem "database_cleaner"
+  gem "dotenv-rails"
   gem "factories"
   gem "pry"
   gem "rspec-rails"
