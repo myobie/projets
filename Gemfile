@@ -8,6 +8,7 @@ gem "aws-sdk"
 gem "bcrypt", "~> 3.1.7"
 gem "micromachine"
 gem "pg"
+gem "rest-client"
 
 gem "coffee-rails"
 gem "sass-rails"

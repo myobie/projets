@@ -26,7 +26,7 @@ class Upload < ActiveRecord::Base
 
   def generate_url
     if valid?
-      uploads_bucket.objects[self.key].url_for(:put, expires: 10).to_s
+      uploads_bucket.objects[key].url_for(:write, expires: 10).to_s
     end
   end
 

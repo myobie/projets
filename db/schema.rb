@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20140511002541) do
 
   create_table "users", force: true do |t|
     t.string   "email",           null: false
+    t.string   "name"
     t.string   "password_digest"
     t.datetime "password_expiry"
     t.datetime "created_at"
