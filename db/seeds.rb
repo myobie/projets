@@ -76,21 +76,19 @@ projects.each do |project|
 
     url = URI(upload.generate_url)
     response = nil
-    Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
+    Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
       req = Net::HTTP::Put.new(url.request_uri)
       req.body_stream = File.open(pathname)
       req['Content-Length'] = req.body_stream.size
       req['Content-Type'] = '' # Prevents Net::HTTP from adding content-type
       response = http.request(req)
-      puts "Status code: #{response.code}"
-      puts "Response body: #{response.body}"
     end
 
-    if response.code == "204"
+    if response.code == "200"
       upload.finish && upload.save
 
       attachment = discussion.attachments.create({
-        original_filename: pathname.basename,
+        original_filename: pathname.basename.to_s,
         size:              pathname.size,
         content_type:      "application/pdf",
         user:              user,
@@ -115,21 +113,19 @@ projects.each do |project|
 
     url = URI(upload.generate_url)
     response = nil
-    Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
+    Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
       req = Net::HTTP::Put.new(url.request_uri)
       req.body_stream = File.open(pathname)
       req['Content-Length'] = req.body_stream.size
       req['Content-Type'] = '' # Prevents Net::HTTP from adding content-type
       response = http.request(req)
-      puts "Status code: #{response.code}"
-      puts "Response body: #{response.body}"
     end
 
-    if response.code == "204"
+    if response.code == "200"
       upload.finish && upload.save
 
       attachment = project.attachments.create({
-        original_filename: pathname.basename,
+        original_filename: pathname.basename.to_s,
         size:              pathname.size,
         content_type:      "application/pdf",
         user:              user,
