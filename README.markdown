@@ -1,10 +1,14 @@
 # projets
 
 * Users _<=> Projects_
-* Projects
-    * Files
-    * Discussions
-    * Comments
+* Account
+    * Projects
+        * Files
+            * Comments
+        * Discussions
+            * Comments
+            * Files
+                * Comments
 
 ## Prereqs
 
