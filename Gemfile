@@ -18,7 +18,7 @@ gem "uglifier"
 gem "puma"
 
 group :development do
-  gem "spring"
+  gem "mailcatcher"
 end
 
 group :development, :test do
