@@ -1,10 +1,11 @@
 class User < ActiveRecord::Base
-  has_many :owned_projects, class_name: "Project", foreign_key: :owner_id, inverse_of: :owner
+  has_many  :owned_projects, class_name: "Project", foreign_key: :owner_id, inverse_of: :owner
+  has_many  :owned_accounts, class_name: "Account", foreign_key: :owner_id, inverse_of: :owner
 
   validates :email, presence: true, format: /.+@.+\..+/
 
   def projects
-    Project.where("? = ANY (user_ids)", id)
+    Project.where("? = ANY (member_ids)", id)
   end
 
   def member?(project)
@@ -16,6 +17,6 @@ class User < ActiveRecord::Base
   end
 
   def known_users
-    User.where(id: projects.flat_map(&:user_ids) - [id])
+    User.where(id: projects.flat_map(&:member_ids) - [id])
   end
 end

@@ -1,51 +1,14 @@
 class Project < ActiveRecord::Base
-  belongs_to :owner, class_name: "User", inverse_of: :owned_projects
+  include Concerns::HasArray
 
-  validates :name, presence: true
-  validates :owner, presence: true
+  belongs_to :owner,       class_name: "User", inverse_of: :owned_projects
+  belongs_to :account
 
-  def users
-    User.where id: user_ids
-  end
+  has_many   :discussions
+  has_many   :attachments, as: :attachable
+  has_array  :members,     class_name: "User"
 
-  def member?(user)
-    user_ids.include? user.id
-  end
-
-  def add_member(user, raise_on_exception: false)
-    add_user_id user.id
-    if raise_on_exception
-      save!
-    else
-      save
-    end
-  end
-
-  def remove_member(user, raise_on_exception: false)
-    remove_user_id user.id
-    if raise_on_exception
-      save!
-    else
-      save
-    end
-  end
-
-  private
-
-  def add_user_id(user_id)
-    user_ids_will_change!
-    self.user_ids << user_id
-    clean_up_user_ids
-  end
-
-  def remove_user_id(user_id)
-    user_ids_will_change!
-    self.user_ids.delete user_id
-    clean_up_user_ids
-  end
-
-  def clean_up_user_ids
-    self.user_ids.compact!
-    self.user_ids.uniq!
-  end
+  validates  :name,        presence: true
+  validates  :owner,       presence: true
+  validates  :account,     presence: true
 end

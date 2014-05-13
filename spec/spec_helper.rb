@@ -10,6 +10,7 @@ require "rspec/autorun"
 Dir[Rails.root.join("spec/{support,factories}/**/*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
+AWS.stub!
 
 RSpec.configure do |config|
   include Factories
