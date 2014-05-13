@@ -33,9 +33,9 @@ describe Upload do
     end
   end
 
-  describe "generates a form for uploading" do
+  describe "generates a url for uploading" do
     let(:upload) { create :upload }
-    it { expect { upload.generate_form }.to_not raise_error }
-    it { expect(upload.generate_form.url.to_s).to match(%r{^https://}) }
+    it { expect { upload.generate_url }.to_not raise_error }
+    it { expect(upload.generate_url.to_s).to match(%r{^https://}) }
   end
 end
