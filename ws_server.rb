@@ -12,9 +12,10 @@ ping_interval = ENV.fetch("WEBSOCKETS_PING_INTERVAL", 20)
 debug_value = ENV["RACK_ENV"] != "production"
 
 bunny = Bunny.new.tap { |bunny| bunny.start }
+channel = bunny.create_channel
+exchange = channel.topic("events", durable: true)
 
 EM.run do
-
   EM::WebSocket.run(host: '0.0.0.0', port: port, debug: debug_value) do |socket|
     socket.onopen do |handshake|
       if socket.pingable?
@@ -28,8 +29,6 @@ EM.run do
       path = handshake.path
 
       Em.synchrony do
-        channel = bunny.create_channel
-        exchange = channel.topic("events", durable: true)
         queue = channel.queue("remote-events", durable: true).bind(exchange, routing_key: path)
         consumer = queue.subscribe(ack: true) do |delivery_info, metadata, payload|
           socket.send(payload)
