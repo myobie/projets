@@ -101,10 +101,8 @@ ActiveRecord::Schema.define(version: 20140518201150) do
   add_index "uploads", ["user_id"], name: "index_uploads_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",           null: false
+    t.string   "email",      null: false
     t.string   "name"
-    t.string   "password_digest"
-    t.datetime "password_expiry"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
