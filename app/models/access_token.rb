@@ -12,7 +12,7 @@ class AccessToken < ActiveRecord::Base
 
   def self.generate(user, expiry: nil)
     access_token = user.access_tokens.build({
-      token:  SecureRandom.urlsafe_base64,
+      token:  SecureRandom.urlsafe_base64(32),
       expiry: expiry || the_distint_future
     })
     if access_token.save
@@ -22,10 +22,10 @@ class AccessToken < ActiveRecord::Base
 
   def self.find_by_token_header(token_header)
     if token_header
-      user_id_encoded, possible_token = token_header.split("|")
-      user_id = Base64.strict_decode64(user_id_encoded)
-      tokens = AccessToken.where("expiry > ?", Time.current).where(user_id: user_id).to_a
-      tokens.detect { |model| model.authorize(possible_token) }
+      id_encoded, possible_token = token_header.split("|")
+      id = Base64.strict_decode64(id_encoded)
+      token = AccessToken.where("expiry > ?", Time.current).find_by(id: id)
+      token.authorize(possible_token) if token
     end
   end
 
@@ -45,9 +45,9 @@ class AccessToken < ActiveRecord::Base
   end
 
   def token_header
-    if token
-      user_id_encoded = Base64.strict_encode64(user_id.to_s)
-      "#{user_id_encoded}|#{token}"
+    if token && id
+      id_encoded = Base64.strict_encode64(id.to_s)
+      "#{id_encoded}|#{token}"
     end
   end
 
