@@ -1,5 +1,3 @@
-require 'rep'
-
 class ProjectRepresentation
   include Rep
 
@@ -7,6 +5,7 @@ class ProjectRepresentation
 
   fields [
     :account_id,
+    :member_ids,
     :name,
     :owner_id,
     :type
