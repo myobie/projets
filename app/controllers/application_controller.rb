@@ -18,12 +18,16 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return @current_user if defined?(@current_user)
-    @current_user = User.authorized?(current_access_token)
+
+    @current_user = if current_access_token
+      current_access_token.user
+    end
   end
 
   def current_access_token
     return @current_access_token if defined?(@current_access_token)
-    @current_access_token = request.headers["X-Access-Token"]
+    token = request.headers["X-Access-Token"]
+    @current_access_token = AccessToken.find_by_token_header(token)
   end
 
   def authenticated?

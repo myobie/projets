@@ -12,7 +12,7 @@ names = ["Kate", "Jack", "Hugo", "James",
 
 users = names.each_with_object({}) do |name, h|
   h[name] = User.create({
-    email: "#{name}@example.com",
+    email: "#{name.downcase}@example.com",
     name: name
   })
 end
