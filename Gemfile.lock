@@ -61,6 +61,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mashed (1.0.2)
     method_source (0.8.2)
     micromachine (1.1.0)
     mime-types (1.25.1)
@@ -102,6 +103,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.3.1)
     ref (1.0.5)
+    rep (1.0.1)
+      mashed (~> 1.0.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec-core (2.14.8)
@@ -170,6 +173,7 @@ DEPENDENCIES
   puma
   rails (= 4.1.1)
   rails_12factor
+  rep
   rest-client
   rspec-rails
   sass-rails

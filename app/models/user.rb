@@ -8,6 +8,10 @@ class User < ActiveRecord::Base
     Project.where("? = ANY (member_ids)", id)
   end
 
+  def accounts
+    Account.where(id: projects.pluck(:account_id))
+  end
+
   def member?(project)
     projects.where(id: project.id).exists?
   end

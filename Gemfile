@@ -9,6 +9,7 @@ gem "bcrypt", "~> 3.1.7"
 gem "micromachine"
 gem "pg"
 gem "rest-client"
+gem "rep"
 
 gem "coffee-rails"
 gem "sass-rails"
