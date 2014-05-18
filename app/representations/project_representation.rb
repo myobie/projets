@@ -4,6 +4,7 @@ class ProjectRepresentation
   initialize_with :project
 
   fields [
+    :id,
     :account_id,
     :member_ids,
     :name,

@@ -4,6 +4,7 @@ class AccountRepresentation
   initialize_with :account
 
   fields [
+    :id,
     :admin_ids,
     :name,
     :owner_id,

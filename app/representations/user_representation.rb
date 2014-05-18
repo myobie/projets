@@ -4,6 +4,7 @@ class UserRepresentation
   initialize_with :user
 
   fields [
+    :id,
     :email,
     :name,
     :type
