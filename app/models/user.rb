@@ -19,4 +19,12 @@ class User < ActiveRecord::Base
   def known_users
     User.where(id: projects.flat_map(&:member_ids) - [id])
   end
+
+  def access_token?
+    access_token && access_token_expiry > Time.current
+  end
+
+  def authorized?(token)
+    access_token? && access_token === token
+  end
 end
