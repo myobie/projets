@@ -1,13 +1,21 @@
+require 'em-http-request'
+
 class SocketAuthorization
+  attr_reader :answer
+
   def initialize(request)
     @request = request
   end
 
   def authorized?
-    valid_path? && user_authorized?
+    if user_id? && access_token?
+      authorize_user!
+    else
+      error!
+    end
   end
 
-  def valid_path?
+  def user_id?
     !!user_id
   end
 
@@ -19,15 +27,58 @@ class SocketAuthorization
     end
   end
 
-  def user_authorized?
-    user.authorized?(access_token) if access_token
-  end
-
   def access_token
-    @request.query["access_token"] if user
+    @request.query["access_token"]
   end
 
-  def user
-    @user ||= User.find_by(id: user_id)
+  def access_token?
+    !!access_token
+  end
+
+  def finished?
+    defined?(@answer)
+  end
+
+  def errback(&blk)
+    @errback = blk
+    blk.call(answer) if finished?
+  end
+
+  def callback(&blk)
+    @callback = blk
+    blk.call(answer) if finished?
+  end
+
+  def authorize_user!
+    opts = {
+      head: {
+        "X-Access-Token" => access_token
+      },
+      path: "/api/v1/users/#{user_id}"
+    }
+
+    host = ENV.fetch("HOST_TO_PROXY")
+    http = EM::HttpRequest.new("https://#{host}/")
+    http.setup_request(:get, opts)
+
+    http.errback { blk.call(nil) }
+    http.callback do
+      if http.response_header.status == "200"
+        json = JSON.parse(http.response)
+        success! json
+      else
+        error!
+      end
+    end
+  end
+
+  def success!(new_answer)
+    @answer = new_answer
+    @callback.call(answer) if @callback
+  end
+
+  def error!(new_answer = nil)
+    @answer = new_answer
+    @errback.call(answer) if @errback
   end
 end

@@ -1,4 +1,6 @@
 require 'bunny'
+require 'em-synchrony'
+require 'em-synchrony/amqp'
 
 class RabbitConsumer
   def self.cached_connection
@@ -13,20 +15,28 @@ class RabbitConsumer
     @exchange ||= channel.topic "events", durable: true
   end
 
+  def self.shutdown
+    @connection.close if @connection
+  end
+
   %w(connection channel exchange).each do |m|
     cached_m = :"cached_#{m}"
     define_method(m.intern) { self.class.send(cached_m) }
   end
 
   def initialize(socket, routing_key)
-    @queue = channel.queue("remote-events", durable: true).bind exchange, routing_key: routing_key
-    @subscription = queue.subscribe(ack: true) do |delivery_info, metadata, payload|
-      socket.send payload
-      channel.acknowledge delivery_info.delivery_tag, false
+    EM.synchrony do
+      @queue = channel.queue("remote-events", durable: true).bind exchange, routing_key: routing_key
+      @subscription = queue.subscribe(ack: true) do |delivery_info, metadata, payload|
+        socket.send payload
+        channel.acknowledge delivery_info.delivery_tag, false
+      end
     end
   end
 
   def cancel
-    @subscription.cancel
+    EM.synchrony do
+      @subscription.cancel
+    end
   end
 end

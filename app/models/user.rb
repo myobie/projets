@@ -25,6 +25,6 @@ class User < ActiveRecord::Base
   end
 
   def authorized?(token)
-    access_token? && access_token === token
+    access_token? && access_token == token
   end
 end

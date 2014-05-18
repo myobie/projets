@@ -1,3 +1,5 @@
+require 'em-http-request'
+
 class MessageHandler
   def self.call(authorization, socket, message)
     new(socket, message).call
