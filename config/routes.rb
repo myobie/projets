@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     resources :projects do
       resources :discussions
     end
-    resources :discussions
+    resources :discussions do
+      resources :comments, defaults: { parent_type: "discussion" }
+    end
     resources :people
   end
 end

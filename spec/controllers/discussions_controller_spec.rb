@@ -6,7 +6,7 @@ describe DiscussionsController do
   describe "index" do
     context "(with a project and some discussions)" do
       before do
-        @project = create :project, owner: current_user, member_ids: [current_user.id]
+        @project = create_current_user_project
         @discussions = 3.times.map do
           create :discussion, project: @project
         end

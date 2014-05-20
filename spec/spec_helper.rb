@@ -34,6 +34,14 @@ RSpec.configure do |config|
     JSON.parse(response.body)
   end
 
+  def create_current_user_project(opts = {})
+    member_ids = opts.fetch(:member_ids) {[]}.concat([current_user.id])
+    create(:project, {
+      owner: current_user,
+      member_ids: member_ids
+    }.merge(opts.except(:member_ids)))
+  end
+
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
     DatabaseCleaner.strategy = :transaction
