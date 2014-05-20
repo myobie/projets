@@ -34,11 +34,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user_id
+    current_user && current_user.id
+  end
+  helper_method :current_user_id
+
   def current_access_token
     return @current_access_token if defined?(@current_access_token)
     token = request.headers["X-Access-Token"]
     @current_access_token = AccessToken.find_by_token_header(token)
   end
+  helper_method :current_access_token
 
   def authenticated?
     !!current_user
