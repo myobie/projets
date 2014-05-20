@@ -20,7 +20,7 @@ EM.run do
 
       include SocketPingPong
 
-      authorization = SocketAuthorization.new(handshake)
+      authorization = SocketAuthorization.new(handshake).authorize_user!
 
       authorization.errback do
         socket.close

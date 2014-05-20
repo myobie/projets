@@ -61,7 +61,7 @@ class SocketAuthorization
     http = EM::HttpRequest.new("https://#{host}/")
     http.setup_request(:get, opts)
 
-    http.errback { blk.call(nil) }
+    http.errback { error! }
     http.callback do
       if http.response_header.status == "200"
         json = JSON.parse(http.response)
@@ -70,6 +70,8 @@ class SocketAuthorization
         error!
       end
     end
+
+    self
   end
 
   def success!(new_answer)
