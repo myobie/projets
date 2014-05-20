@@ -12,9 +12,5 @@ Rails.application.routes.draw do
     resources :people
   end
 
-  constraints format: 'html' do
-    get "*paths", to: redirect { |_, req| "/##{req.original_fullpath.gsub(%r{^/}, '')}" }
-  end
-
   root to: "homepages#show"
 end
