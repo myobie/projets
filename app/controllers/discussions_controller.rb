@@ -6,6 +6,6 @@ class DiscussionsController < ApplicationController
   private
 
   def project
-    @project ||= Project.find(params.require(:project_id))
+    @project ||= current_user.projects.find(params.require(:project_id))
   end
 end
