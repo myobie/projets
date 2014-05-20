@@ -54,7 +54,7 @@ class SocketAuthorization
       head: {
         "X-Access-Token" => access_token
       },
-      path: "/api/v1/users/#{user_id}"
+      path: "/people/#{user_id}"
     }
 
     host = ENV.fetch("HOST_TO_PROXY")

@@ -11,6 +11,10 @@ class MessageHandler
     @message = message
   end
 
+  def write(obj)
+    socket.send(JSON.generate(obj))
+  end
+
   def call
     if message_json?
       case message_type
