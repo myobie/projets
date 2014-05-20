@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
 
   def current_access_token
     return @current_access_token if defined?(@current_access_token)
-    token = request.headers["X-Access-Token"]
+    token = request.headers["X-Access-Token"] || params[:access_token]
     @current_access_token = AccessToken.find_by_token_header(token)
   end
   helper_method :current_access_token
