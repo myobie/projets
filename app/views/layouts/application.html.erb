@@ -5,7 +5,7 @@
     <%= stylesheet_link_tag      'application', media: 'all' %>
     <%= csrf_meta_tags %>
     <script>
-      var current_access_token = '<%= current_access_token %>',
+      var current_access_token = '<%= current_access_token_cookie %>',
           current_user_id      = '<%= current_user_id %>';
     </script>
   </head>

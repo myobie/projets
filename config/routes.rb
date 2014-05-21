@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     resources :people
   end
 
+  post "/authenticate/:token" => "authentications#create"
+  get  "/authenticate/:token" => "authentications#create"
   root to: "homepages#show"
 end
