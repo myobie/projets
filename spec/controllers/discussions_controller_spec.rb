@@ -28,4 +28,35 @@ describe DiscussionsController do
       it { expect(response).to be_not_found }
     end
   end
+
+  describe "show" do
+    context "(with a discussion)" do
+      before do
+        @project = create_current_user_project
+        @discussion = create :discussion, project: @project
+      end
+
+      describe "returns the discussion json" do
+        before { get :show, id: @discussion.id }
+        it { expect(response).to be_success }
+
+        it "with the correct id" do
+          expect(json_response["id"]).to eq(@discussion.id)
+        end
+
+        it "with the correct type of discussion" do
+          expect(json_response["type"]).to eq("discussion")
+        end
+      end
+
+      describe "returns 404 for non-members" do
+        before do
+          stub_current_user name: "SomeoneElse"
+          get :show, id: @discussion.id
+        end
+
+        it { expect(response).to be_not_found }
+      end
+    end
+  end
 end
