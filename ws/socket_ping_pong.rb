@@ -1,7 +1,9 @@
 require 'eventmachine'
 
 module SocketPingPong
-  def self.included(socket)
+  module_function
+
+  def call(socket)
     if socket.pingable?
       ping_interval = ENV.fetch("WEBSOCKETS_PING_INTERVAL", 20)
       timer = EM.add_periodic_timer(ping_interval) do
@@ -11,6 +13,11 @@ module SocketPingPong
 
       socket.onping do |message|
         socket.pong message
+      end
+
+      socket.onclose do
+        puts "Cancelling the ping pong timer"
+        timer.cancel
       end
     end
   end

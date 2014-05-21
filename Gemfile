@@ -6,6 +6,7 @@ gem "rails", "4.1.1"
 
 gem "aws-sdk"
 gem "bcrypt", "~> 3.1.7"
+gem "bunny"
 gem "micromachine"
 gem "pg"
 gem "rest-client"
@@ -32,6 +33,11 @@ end
 
 group :test do
   gem "simplecov"
+end
+
+group :websockets do
+  gem "em-websocket"
+  gem "em-http-request"
 end
 
 group :production do

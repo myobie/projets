@@ -1,3 +1,5 @@
+require 'uri'
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -51,7 +53,10 @@ class ApplicationController < ActionController::Base
   def current_access_token
     return @current_access_token if defined?(@current_access_token)
     token = request.headers["X-Access-Token"] || params[:access_token] || current_access_token_cookie
-    @current_access_token = AccessToken.find_by_token_header(token)
+    @current_access_token = if token
+                              token = URI.unescape(token)
+                              AccessToken.find_by_token_header(token)
+                            end
   end
   helper_method :current_access_token
 

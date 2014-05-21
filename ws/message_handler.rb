@@ -48,21 +48,21 @@ class MessageHandler
     }
 
     http = EM::HttpRequest.new("https://#{host}/")
-    http.setup_request(verb.intern, opts)
+    request = http.setup_request(verb.intern, opts)
 
-    http.errback do
+    request.errback do
       write({
         type: "request_error",
         request_id: request_id
       })
     end
 
-    http.callback do
+    request.callback do
       write({
         type: "response",
         request_id: request_id,
-        code: http.response_header.status,
-        body: http.response
+        code: request.response_header.status,
+        body: request.response
       })
     end
   end
