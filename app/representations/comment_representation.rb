@@ -17,7 +17,7 @@ class CommentRepresentation
   def parent
     {
       id: comment.commentable_id,
-      type: comment.commentable_type
+      type: comment.commentable_type.underscore
     }
   end
 

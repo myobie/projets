@@ -14,7 +14,7 @@ class DiscussionsController < ApplicationController
 
   def create
     if project.member?(current_user)
-      discussion = Discussion.new(create_params)
+      discussion = project.discussions.build(create_params)
       if discussion.save
         json = DiscussionRepresentation.shared(discussion: discussion).to_hash
         render_json json, status: 201
