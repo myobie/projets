@@ -17,6 +17,7 @@ class app.DiscussionsRouter extends app.Main
       unless discussion
         # fetch the discussion if it's not already in memory
         discussion = new app.Discussion id: id
+        app.discussions.add discussion
         discussion.fetch()
 
       # load all the comments for this discussion
