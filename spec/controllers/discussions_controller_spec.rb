@@ -59,4 +59,45 @@ describe DiscussionsController do
       end
     end
   end
+
+  describe "create" do
+    let(:project) { create_current_user_project }
+    before { post :create, name: "New Discussion", project_id: project.id }
+
+    describe "succeeds" do
+      it { expect(response.code).to eq("201") }
+
+      it "and should send back the new id" do
+        expect(json_response["id"]).to eq(Discussion.last.id)
+      end
+
+      it "and should be the correct type" do
+        expect(json_response["type"]).to eq("discussion")
+      end
+    end
+  end
+
+  describe "update" do
+    let(:project) { create_current_user_project }
+    let(:discussion) { create :discussion, project: project }
+
+    describe "succeeds" do
+      before { patch :update, id: discussion.id, name: "I mean't to name it this" }
+      it { expect(response).to be_success }
+
+      it "and should be the correct type" do
+        expect(json_response["type"]).to eq("discussion")
+      end
+    end
+  end
+
+  describe "destroy" do
+    let(:project) { create_current_user_project }
+    let(:discussion) { create :discussion, project: project }
+
+    describe "succeeds" do
+      before { delete :destroy, id: discussion.id }
+      it { expect(response).to be_success }
+    end
+  end
 end

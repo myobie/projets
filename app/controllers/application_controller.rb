@@ -18,6 +18,14 @@ class ApplicationController < ActionController::Base
     render_error "You are not authenticated", status: 401
   end
 
+  def render_validation_errors(messages)
+    render_json({type: "validation-error", messages: messages }, status: 422)
+  end
+
+  def render_nothing
+    render nothing: true, status: 204
+  end
+
   def render_error(message, status: 400)
     render_json({ type: "error", message: message }, status: status)
   end
