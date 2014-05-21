@@ -26,7 +26,7 @@ class RabbitConsumer
 
   def initialize(socket, routing_key)
     EM.synchrony do
-      @queue = channel.queue("remote-events", durable: true).bind exchange, routing_key: routing_key
+      @queue = channel.queue("events", durable: true).bind exchange, routing_key: routing_key
       @subscription = queue.subscribe(ack: true) do |delivery_info, metadata, payload|
         socket.send payload
         channel.acknowledge delivery_info.delivery_tag, false

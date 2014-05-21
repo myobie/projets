@@ -27,7 +27,7 @@ EM.run do
       end
 
       authorization.callback do
-        rabbit_consumer = RabbitConsumer.new(socket, "user.#{authorization.user_id}")
+        rabbit_consumer = RabbitConsumer.new(socket, "users.#{authorization.user_id}")
 
         socket.onclose do
           puts "websocket is closed"
