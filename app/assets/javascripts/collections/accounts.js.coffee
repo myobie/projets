@@ -4,3 +4,4 @@
 
 class app.Accounts extends Backbone.Collection
   model: app.Account
+  url: "/accounts"

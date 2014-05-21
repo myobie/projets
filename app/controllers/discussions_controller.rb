@@ -3,6 +3,15 @@ class DiscussionsController < ApplicationController
     render_json project.discussions.map(&DiscussionRepresentation)
   end
 
+  def show
+    discussion = Discussion.find(params[:id])
+    if discussion.project.member?(current_user)
+      render_json DiscussionRepresentation.shared(discussion: discussion).to_hash
+    else
+      render_not_found_error
+    end
+  end
+
   private
 
   def project

@@ -15,8 +15,9 @@ class app.Subcollection extends Backbone.Collection
     super filtered_models, options
 
   add: (model, options) ->
-    if @filter model
-      super model, options
+    model = [model] unless _.isArray model
+    filtered_models = _.filter model, @filter
+    super filtered_models, options
 
   push: (model, options) ->
     if @filter model

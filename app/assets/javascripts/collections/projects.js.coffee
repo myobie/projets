@@ -4,3 +4,4 @@
 
 class app.Projects extends Backbone.Collection
   model: app.Project
+  url: "/projects"
