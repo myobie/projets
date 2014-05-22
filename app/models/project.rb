@@ -1,3 +1,6 @@
+require_relative 'concerns/has_array'
+require_relative 'user'
+
 class Project < ActiveRecord::Base
   include Concerns::HasArray
 

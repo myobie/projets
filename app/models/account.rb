@@ -1,3 +1,6 @@
+require_relative 'concerns/has_array'
+require_relative 'user'
+
 class Account < ActiveRecord::Base
   include Concerns::HasArray
 

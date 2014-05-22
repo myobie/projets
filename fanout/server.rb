@@ -4,13 +4,19 @@ Thread.abort_on_exception = true
 require 'bundler'
 Bundler.setup
 
-require_relative 'rabbit_consumer'
+require 'dotenv'
+Dotenv.load
+Dotenv.overload ".env.#{ENV.fetch("RACK_ENV")}"
 
-thread_count = Integer(ENV.fetch('DB_POOL', 5))
+require_relative 'worker'
+
+thread_count = Integer(ENV.fetch('WORKER_THREADS', 5))
+
+puts "Making #{thread_count} threads"
 
 threads = thread_count.times.map do
   Thread.new do
-    RabbitConsumer.new
+    Worker.new.start
   end
 end
 

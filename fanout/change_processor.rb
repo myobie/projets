@@ -1,12 +1,14 @@
 require 'active_record'
 require 'pg'
 
-ActiveRecord::Base.establish_connection
+thread_count = Integer(ENV.fetch('WORKER_THREADS', 5))
+url = "#{ENV.fetch("DATABASE_URL")}?pool=#{thread_count}"
 
-require_relative '../config/initializers/database_connection'
+ActiveRecord::Base.establish_connection url
 
-Dir['../app/models/*.rb'].each do |file|
-  require_relative file
+glob = File.expand_path('../app/models/**/*.rb', __dir__)
+Dir[glob].each do |file|
+  require file
 end
 
 require_relative 'rabbit_connection'
@@ -16,6 +18,14 @@ class ChangeProcessor
 
   def self.call(payload)
     new(payload).call
+  end
+
+  def self.cached_channel
+    @producer_channel ||= RabbitConnection.create_channel
+  end
+
+  def self.cached_exchange
+    @exchange ||= cached_channel.topic "events", durable: true, exclusive: false
   end
 
   def initialize(payload)
@@ -30,17 +40,22 @@ class ChangeProcessor
   end
 
   def enqueue(user, payload)
-    RabbitConnection.events_exchange.publish(payload, routing_key: "users.#{user.id}")
+    self.class.cached_exchange.publish(payload, routing_key: "users.#{user.id}")
   end
 
   def each_user(&blk)
     find_users.each(&blk)
   end
 
-  def find_users
-    subject      = json["subject"]
-    subject_type = subject["type"]
+  def subject_type
+    json && json["subject"] && json["subject"]["type"]
+  end
 
+  def subject_id
+    json && json["subject"] && json["subject"]["id"]
+  end
+
+  def find_users
     case subject_type
     when "comment"
       process_comment
@@ -51,12 +66,20 @@ class ChangeProcessor
 
   def process_comment
     comment = Comment.find(json["subject"]["id"])
-    puts "Processing change for comment #{comment.id}"
-    comment.discussion.project.members
+
+    puts "Processing change for comment #{comment.id}\n"
+
+    case comment.commentable_type
+    when "Discussion"
+      comment.commentable.project.members
+    else
+      puts "Don't understand this type of comment with commentable_type '#{comment.commentable_type}'\n"
+      []
+    end
   end
 
   def unknown_change_type
-    puts "Don't understand the change for subject type '#{subject_type}' (#{json.inspect})"
+    puts "Don't understand the change for subject type '#{subject_type}' (#{json.inspect})\n"
     []
   end
 end
