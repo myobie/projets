@@ -65,16 +65,29 @@ class ChangeProcessor
   end
 
   def process_comment
-    comment = Comment.find(subject_id)
+    comment = Comment.find_by(id: subject_id)
 
-    puts "Processing change for comment #{comment.id}\n"
+    if comment
+      puts "Processing change for comment #{comment.id}\n"
 
-    case comment.commentable_type
-    when "Discussion"
-      comment.commentable.project.members
+      case comment.commentable_type
+      when "Discussion"
+        comment.commentable.project.members
+      else
+        puts "Don't understand this type of comment with commentable_type '#{comment.commentable_type}'\n"
+        []
+      end
     else
-      puts "Don't understand this type of comment with commentable_type '#{comment.commentable_type}'\n"
-      []
+      type = json && json["data"] && json["data"]["parent"] && json["data"]["parent"]["type"]
+      id   = json && json["data"] && json["data"]["parent"] && json["data"]["parent"]["id"]
+
+      if id && type
+        commentable = type.constantize.find(id)
+        commentable.project.members
+      else
+        puts "Couldn't find comment or commentable\n"
+        []
+      end
     end
   end
 

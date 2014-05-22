@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
     if comment.user_id == current_user_id
       comment.destroy
-      push_change :destroy, id: comment.id, type: "comment"
+      push_change :delete, id: comment.id, type: "comment", parent: { id: comment.commentable_id, type: comment.commentable_type }
       render_nothing
     else
       render_not_found_error

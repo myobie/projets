@@ -53,6 +53,13 @@ class app.DiscussionCommentView extends Backbone.View
   templatePath: "templates/discussions/_comment"
   template: (stuff) -> JST[@templatePath](stuff)
 
+  events:
+    "click .remove a": "remove_click"
+
+  remove_click: (e) =>
+    e.preventDefault()
+    @model.destroy()
+
   initialize: ->
     @listenTo @model, "change", @render
     @listenTo @model, "remove", @remove
@@ -61,6 +68,8 @@ class app.DiscussionCommentView extends Backbone.View
     result = @template
       avatar_url: "/people/#{@model.get("created_by_id")}/avatar"
       content: @model.get("content")
+      is_mine: @model.get("created_by_id") is parseInt(window.current_user_id, 10)
+      id: @model.id
 
     @$el.html result
     @
