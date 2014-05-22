@@ -14,7 +14,8 @@ class app.ProjectsShowDiscussionView extends Backbone.View
     @listenTo @model, "remove", @remove
     @listenTo @model.comments, "add", @add_avatar
     @listenTo @model.comments, "reset", @reset_avatars
-    @listenTo @model.comments, "add reset", @render_comments_count
+    @listenTo @model.comments, "add remove reset", @render_comments_count
+    @listenTo @model.comments, "add remove reset", @render_summary
     @avatar_views = []
 
   reset_avatars: ->
@@ -33,6 +34,9 @@ class app.ProjectsShowDiscussionView extends Backbone.View
 
   render_comments_count: ->
     @$(".comments-count").html @model.comments_count()
+
+  render_summary: ->
+    @$(".summary").html @model.summary()
 
   render: ->
     result = @template discussion: @model

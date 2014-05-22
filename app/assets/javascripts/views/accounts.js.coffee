@@ -26,6 +26,8 @@ class app.AccountsView extends Backbone.View
     @
 
 class app.AccountItemView extends Backbone.View
+  tagName: "li"
+
   templatePath: "templates/account_item"
   template: (stuff) -> JST[@templatePath](stuff)
 

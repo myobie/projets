@@ -1,0 +1,16 @@
+<h1><%= @discussion.name() %></h1>
+
+<section class="comments-list">
+</section>
+
+<section class="comments-form">
+  <form>
+    <p class="avatar">
+      <img src="<%= @avatar_url %>" width="32" height="32">
+    </p>
+    <div class="content">
+      <p><textarea class="content"></textarea></p>
+      <p><button type="submit">Add Comment</button></p>
+    </div>
+  </form>
+</section>

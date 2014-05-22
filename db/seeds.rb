@@ -68,90 +68,90 @@ projects.each do |project|
   end
 
   # attach the files to the discussion
-  files.each do |name, pathname|
-    user = project.members.random
-    upload = Upload.create({
-      user: user
-    })
+  # files.each do |name, pathname|
+  #   user = project.members.random
+  #   upload = Upload.create({
+  #     user: user
+  #   })
 
-    url = URI(upload.generate_url)
-    response = nil
-    Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
-      req = Net::HTTP::Put.new(url.request_uri)
-      req.body_stream = File.open(pathname)
-      req['Content-Length'] = req.body_stream.size
-      req['Content-Type'] = '' # Prevents Net::HTTP from adding content-type
-      response = http.request(req)
-    end
+  #   url = URI(upload.generate_url)
+  #   response = nil
+  #   Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
+  #     req = Net::HTTP::Put.new(url.request_uri)
+  #     req.body_stream = File.open(pathname)
+  #     req['Content-Length'] = req.body_stream.size
+  #     req['Content-Type'] = '' # Prevents Net::HTTP from adding content-type
+  #     response = http.request(req)
+  #   end
 
-    if response.code == "200"
-      upload.finish && upload.save
+  #   if response.code == "200"
+  #     upload.finish && upload.save
 
-      attachment = discussion.attachments.create({
-        original_filename: pathname.basename.to_s,
-        size:              pathname.size,
-        content_type:      "application/pdf",
-        user:              user,
-        upload:            upload
-      })
+  #     attachment = discussion.attachments.create({
+  #       original_filename: pathname.basename.to_s,
+  #       size:              pathname.size,
+  #       content_type:      "application/pdf",
+  #       user:              user,
+  #       upload:            upload
+  #     })
 
-      attachment.comments.create({
-        content: "Oh wow",
-        user: project.members.random
-      })
-    else
-      puts "Upload of a file failed..."
-    end
-  end
+  #     attachment.comments.create({
+  #       content: "Oh wow",
+  #       user: project.members.random
+  #     })
+  #   else
+  #     puts "Upload of a file failed..."
+  #   end
+  # end
 
   # attach the files to the project
-  files.each do |name, pathname|
-    user = project.members.random
-    upload = Upload.create({
-      user: user
-    })
+  # files.each do |name, pathname|
+  #   user = project.members.random
+  #   upload = Upload.create({
+  #     user: user
+  #   })
 
-    url = URI(upload.generate_url)
-    response = nil
-    Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
-      req = Net::HTTP::Put.new(url.request_uri)
-      req.body_stream = File.open(pathname)
-      req['Content-Length'] = req.body_stream.size
-      req['Content-Type'] = '' # Prevents Net::HTTP from adding content-type
-      response = http.request(req)
-    end
+  #   url = URI(upload.generate_url)
+  #   response = nil
+  #   Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
+  #     req = Net::HTTP::Put.new(url.request_uri)
+  #     req.body_stream = File.open(pathname)
+  #     req['Content-Length'] = req.body_stream.size
+  #     req['Content-Type'] = '' # Prevents Net::HTTP from adding content-type
+  #     response = http.request(req)
+  #   end
 
-    if response.code == "200"
-      upload.finish && upload.save
+  #   if response.code == "200"
+  #     upload.finish && upload.save
 
-      attachment = project.attachments.create({
-        original_filename: pathname.basename.to_s,
-        size:              pathname.size,
-        content_type:      "application/pdf",
-        user:              user,
-        upload:            upload
-      })
+  #     attachment = project.attachments.create({
+  #       original_filename: pathname.basename.to_s,
+  #       size:              pathname.size,
+  #       content_type:      "application/pdf",
+  #       user:              user,
+  #       upload:            upload
+  #     })
 
-      attachment.comments.create({
-        content: "Oh wow",
-        user: project.members.random
-      })
-    else
-      puts "Upload of a file failed..."
-    end
-  end
+  #     attachment.comments.create({
+  #       content: "Oh wow",
+  #       user: project.members.random
+  #     })
+  #   else
+  #     puts "Upload of a file failed..."
+  #   end
+  # end
 end
 
 50.times do
   project = projects.first
-  name = 4.times.map { SecureRandom.urlsafe_base64 }.join(" ")
+  name = Faker::Lorem.sentence
   discussion = project.discussions.create({
     name: name,
     user: project.members.random
   })
 
   50.times do
-    content = 40.times.map { SecureRandom.urlsafe_base64 }.join(" ")
+    content = Faker::Lorem.sentences.join(" ")
     discussion.comments.create({
       content: content,
       user: project.members.random

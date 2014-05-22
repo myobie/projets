@@ -17,8 +17,8 @@ app.present = (view) ->
     app.currently_presented_view = null
 
   app.currently_presented_view = view
-  view.setElement app.main_el
   view.render()
+  app.main_el.appendChild view.el
 
 app.navigate = (path) ->
   Backbone.history.navigate path, trigger: true

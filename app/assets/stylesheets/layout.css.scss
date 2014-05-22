@@ -1,0 +1,109 @@
+$black: #111;
+$grey: #ddd;
+
+body {
+  margin: 40px 0;
+  padding: 0;
+  font: 16px/1.6 Helvetica Neue, sans-serif;
+}
+
+h1, p, ul {
+  margin: 0 0 1em;
+}
+
+#sidebar {
+  float: left;
+  width: 300px;
+}
+
+#main {
+  margin-left: 310px;
+}
+
+.accounts-list,
+.projects-list {
+  list-style-type: none;
+  padding: 0;
+
+  li {
+    padding: 0 10px 20px;
+    margin: 0 10px 20px;
+    border-bottom: 1px solid $grey;
+  }
+
+  a {
+    text-decoration: none;
+    color: $black;
+    font-weight: bold;
+  }
+}
+
+.projects-list {
+  a {
+    text-decoration: underline;
+    font-weight: normal;
+  }
+}
+
+.discussion {
+  padding: 10px 10px 40px;
+  margin: 0 0 40px;
+  border-bottom: 1px solid $grey;
+
+  h1 a {
+    color: $black;
+  }
+
+  .comments-count {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .avatars-list {
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    list-style-type: none;
+
+    li {
+      display: inline;
+    }
+  }
+}
+
+.comments-list,
+.comments-form {
+  article {
+    margin-bottom: 20px;
+  }
+
+  .avatar {
+    display: inline-block;
+    vertical-align: top;
+    width: 32px;
+    margin-right: 10px;
+  }
+
+  .content {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.comments-form {
+  textarea {
+    width: 35em;
+    height: 10em;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 10px;
+  }
+
+  button {
+    color: $black;
+    background: $grey;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+  }
+}

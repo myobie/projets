@@ -79,6 +79,8 @@ GEM
     execjs (2.0.2)
     factories (0.0.3)
       activesupport
+    faker (1.3.0)
+      i18n (~> 0.5)
     hike (1.2.3)
     http_parser.rb (0.6.0)
     i18n (0.6.9)
@@ -198,6 +200,7 @@ DEPENDENCIES
   em-http-request
   em-websocket
   factories
+  faker
   micromachine
   pg
   pry

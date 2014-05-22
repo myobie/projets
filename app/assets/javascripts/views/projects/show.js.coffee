@@ -17,7 +17,7 @@ class app.ProjectsShowView extends Backbone.View
     view.remove() for view in @discussion_views
 
     @discussion_views = []
-    @model.discussions.map (discussion) => @add_discussion discussion
+    @model.discussions.each (discussion) => @add_discussion discussion
 
   add_discussion: (discussion) =>
     view = new app.ProjectsShowDiscussionView model: discussion

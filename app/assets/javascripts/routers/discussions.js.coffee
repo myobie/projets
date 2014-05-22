@@ -20,6 +20,9 @@ class app.DiscussionsRouter extends app.Main
         app.discussions.add discussion
         discussion.fetch()
 
+      view = new app.DiscussionsShowView model: discussion
+      app.present view
+
       # load all the comments for this discussion
       discussion.comments.fetch()
 

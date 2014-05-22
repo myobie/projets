@@ -26,6 +26,8 @@ class app.ProjectsView extends Backbone.View
     @
 
 class app.ProjectItemView extends Backbone.View
+  tagName: "li"
+
   templatePath: "templates/project_item"
   template: (stuff) -> JST[@templatePath](stuff)
 

@@ -16,17 +16,6 @@ class app.ProjectsRouter extends app.Main
 
       # load all discussions for this project
       project.discussions.fetch success: ->
-        current = 0
-        total   = project.discussions.length
-
-        next = ->
-          if current < total
-            setTimeout ->
-              project.discussions.models[current].comments.fetch()
-              current += 1
-              setTimeout next, 5
-            , 30
-
-        next()
+        project.discussions.models[0].comments.fetch()
 
 app.projects_router = new app.ProjectsRouter

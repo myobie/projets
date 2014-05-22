@@ -22,7 +22,7 @@ app.events =
 
   operations:
     create: (collection, data) ->
-      @update(collection, data)
+      app.events.operations.update(collection, data)
 
     update: (collection, data) ->
       collection.add data, merge: true

@@ -1,0 +1,7 @@
+<p class="avatar">
+  <img src="<%= @avatar_url %>" width="32" height="32">
+</p>
+
+<div class="content">
+  <p><%= @content %></p>
+</div>
