@@ -1,3 +1,5 @@
+#= require socket
+
 @app or= {}
 
 app.bootstrap = _.once ->
@@ -13,3 +15,5 @@ app.bootstrap = _.once ->
 
   app.accounts.fetch()
   app.projects.fetch()
+
+  app.socket.connect()
