@@ -14,3 +14,5 @@ class app.Project extends Backbone.Model
       parent: app.discussions,
       filter: @subcollection_filter
     @discussions.url = "/projects/#{@id}/discussions"
+
+  name: -> @get "name"

@@ -1,7 +1,2 @@
 <ul class="accounts-list <%= @accounts_list_class %>">
-  <% @accounts.each (account) -> %>
-    <li>
-      <a href="#accounts/<%= account.id %>"><%= account.name() %></a>
-    </li>
-  <% end %>
 </ul>

@@ -1,4 +1,6 @@
 #= require socket
+#= require views/accounts
+#= require views/projects
 
 @app or= {}
 
@@ -12,6 +14,14 @@ app.bootstrap = _.once ->
 
   app.setup_preloader app.accounts
   app.setup_preloader app.projects
+
+  app.accounts_view = new app.AccountsView collection: app.accounts
+  app.accounts_view.setElement $("#accounts").get(0)
+  app.accounts_view.render()
+
+  app.projects_view = new app.ProjectsView collection: app.projects
+  app.projects_view.setElement $("#projects").get(0)
+  app.projects_view.render()
 
   app.accounts.fetch()
   app.projects.fetch()
