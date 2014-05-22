@@ -10,6 +10,7 @@ class CommentsController < ApplicationController
       comment = commentable.comments.build(create_params)
       if comment.save
         json = CommentRepresentation.shared(comment: comment).to_hash
+        push_change :create, json
         render_json json, status: 201
       else
         render_validation_errors comment.errors.messages
@@ -22,6 +23,7 @@ class CommentsController < ApplicationController
     if comment.user_id == current_user_id
       if comment.update(update_params)
         json = CommentRepresentation.shared(comment: comment).to_hash
+        push_change :update, json
         render_json json
       else
         render_validation_errors comment.errors.messages
@@ -35,6 +37,7 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
     if comment.user_id == current_user_id
       comment.destroy
+      push_change :destroy, id: comment.id, type: "comment"
       render_nothing
     else
       render_not_found_error

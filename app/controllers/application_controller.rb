@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def push_change(operation, hash)
+    payload = JSON.generate(type: "change", operation: operation, data: hash)
+    RabbitConnection.cached_changes_queue.publish payload
+  end
+
   def render_not_found_error
     render_error "not found", status: 404
   end

@@ -24,8 +24,8 @@ class ChangeProcessor
     @producer_channel ||= RabbitConnection.create_channel
   end
 
-  def self.cached_exchange
-    @exchange ||= cached_channel.topic "events", durable: true, exclusive: false
+  def self.cached_events_exchange
+    @events_exchange ||= cached_channel.topic "events", durable: true, exclusive: false
   end
 
   def initialize(payload)
@@ -40,7 +40,7 @@ class ChangeProcessor
   end
 
   def enqueue(user, payload)
-    self.class.cached_exchange.publish(payload, routing_key: "users.#{user.id}")
+    self.class.cached_events_exchange.publish payload, routing_key: "users.#{user.id}"
   end
 
   def each_user(&blk)
@@ -48,11 +48,11 @@ class ChangeProcessor
   end
 
   def subject_type
-    json && json["subject"] && json["subject"]["type"]
+    json && json["data"] && json["data"]["type"]
   end
 
   def subject_id
-    json && json["subject"] && json["subject"]["id"]
+    json && json["data"] && json["data"]["id"]
   end
 
   def find_users
@@ -65,7 +65,7 @@ class ChangeProcessor
   end
 
   def process_comment
-    comment = Comment.find(json["subject"]["id"])
+    comment = Comment.find(subject_id)
 
     puts "Processing change for comment #{comment.id}\n"
 
