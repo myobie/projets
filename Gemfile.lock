@@ -58,6 +58,11 @@ GEM
     dotenv-deployment (0.0.2)
     dotenv-rails (0.11.1)
       dotenv (= 0.11.1)
+    eco (1.0.0)
+      coffee-script
+      eco-source
+      execjs
+    eco-source (1.1.0.rc.1)
     em-http-request (1.1.2)
       addressable (>= 2.3.4)
       cookiejar
@@ -189,6 +194,7 @@ DEPENDENCIES
   coffee-rails
   database_cleaner
   dotenv-rails
+  eco
   em-http-request
   em-websocket
   factories

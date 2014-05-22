@@ -20,4 +20,17 @@ class app.Discussion extends Backbone.Model
       parent: app.comments,
       filter: @subcollection_filter
     @comments.url = "/discussions/#{@id}/comments"
+
   urlRoot: "/discussions"
+
+  name: ->
+    @get "name"
+
+  summary: ->
+    last_comment = @comments.last()
+    last_comment.excerpt() if last_comment
+
+  comments_count: ->
+    if @comments.length > 0
+      word = if @comments.length == 1 then "comment" else "comments"
+      "#{@comments.length} #{word}"

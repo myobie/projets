@@ -10,7 +10,9 @@ Rails.application.routes.draw do
       resources :comments, defaults: { parent_type: "Discussion" }
     end
     resources :comments
-    resources :people
+    resources :people do
+      get :avatar, as: :member
+    end
   end
 
   post "/authenticate/:token" => "authentications#create"

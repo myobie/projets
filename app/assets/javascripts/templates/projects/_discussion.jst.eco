@@ -1,0 +1,7 @@
+<h1>
+  <a href="#discussion/<%= @discussion.id %>"><%= @discussion.name() %></a>
+</h1>
+<p class="summary"><%= @discussion.summary() %></p>
+<p class="comments-count"><%= @discussion.comments_count() %></p>
+<ul class="avatars-list">
+</ul>

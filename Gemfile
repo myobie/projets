@@ -13,6 +13,7 @@ gem "rest-client"
 gem "rep"
 
 gem "coffee-rails"
+gem "eco"
 gem "sass-rails"
 gem "therubyracer",  platforms: :ruby
 gem "uglifier"

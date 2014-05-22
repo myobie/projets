@@ -11,4 +11,8 @@ class PeopleController < ApplicationController
       render_not_found_error
     end
   end
+
+  def avatar
+    redirect_to "https://s3.amazonaws.com/projets-avatars-development/users/#{params.require(:person_id)}.jpg"
+  end
 end

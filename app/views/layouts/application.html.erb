@@ -11,7 +11,13 @@
     </script>
   </head>
   <body>
-    <%= yield %>
+    <div id="sidebar">
+      <div id="accounts"></div>
+      <div id="projects"></div>
+    </div>
+    <div id="main">
+      <%= yield %>
+    </div>
     <%= javascript_include_tag   'application' %>
   </body>
 </html>
