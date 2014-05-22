@@ -6,11 +6,11 @@ class RabbitConsumer
   end
 
   def self.cached_channel
-    @channel ||= cached_connection.create_channel
+    @cached_channel ||= cached_connection.create_channel
   end
 
   def self.cached_exchange
-    @exchange ||= cached_channel.topic "events", durable: true, exclusive: false
+    @cached_exchange ||= cached_channel.topic "events", durable: true, exclusive: false
   end
 
   def self.shutdown
