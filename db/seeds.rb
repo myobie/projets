@@ -158,3 +158,11 @@ end
     })
   end
 end
+
+puts "So you can authenticate:"
+
+2.times do
+  u = User.first
+  a = AccessToken.generate(u)
+  puts "http://projets.dev/authenticate/#{a.token_header}"
+end
