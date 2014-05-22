@@ -6,15 +6,15 @@ class RabbitConnection
   end
 
   def self.cached_channel
-    @channel ||= connection.create_channel
+    @channel ||= cached_connection.create_channel
   end
 
   def self.events_exchange
-    cached_channel.topic "events", durable: true
+    cached_channel.topic "events", durable: true, exclusive: false
   end
 
   def self.changes_queue
-    cached_channel.queue "changes", durable: true
+    cached_channel.queue "changes", durable: true, exclusive: false
   end
 
   def self.shutdown

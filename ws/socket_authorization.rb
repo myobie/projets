@@ -1,5 +1,6 @@
 require 'em-http-request'
 require 'json'
+require 'uri'
 
 class SocketAuthorization
   attr_reader :answer
@@ -29,7 +30,7 @@ class SocketAuthorization
   end
 
   def access_token
-    @request.query["access_token"]
+    URI.decode(@request.query["access_token"])
   end
 
   def access_token?
