@@ -35,7 +35,8 @@ group :test do
   gem "simplecov"
 end
 
-group :websockets do
+group :workers do
+  gem "amqp"
   gem "em-websocket"
   gem "em-http-request"
 end
